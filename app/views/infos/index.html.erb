@@ -1,0 +1,109 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag "nomalize"%>
+	<%= stylesheet_link_tag "demo"%>
+	<%= stylesheet_link_tag "icons"%>
+	<%= stylesheet_link_tag "component"%>
+	<%= javascript_include_tag "modernizr" %>
+	<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+	<div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+		<%= render 'layouts/leftside' %>
+		<div class="scroller">
+			<div class="scroller-inner">
+				<%= render 'layouts/scrollerhead' %>
+				<div class="content">
+					<% if @info.blank? %>
+						<div>出错了，信息丢失了</div>
+					<% else %>
+						<div>个人信息</div>
+						<% if @user.role == 'student' %>
+							<table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+								<tbody>
+									<tr>
+										<td>学号</td>
+										<td><%= @info.sno %></td>
+										<td>姓名</td>
+										<td><%= @info.sname %></td>
+									</tr>
+									<tr>
+										<td>性别</td>
+										<td><%= @info.ssex %></td>
+										<td>出生日期</td>
+										<td><%= @info.sbirthday %></td>
+									</tr>
+									<tr>
+										<td>学院</td>
+										<td><%= @info.cla.major.department.dname %></td>
+										<td>专业</td>
+										<td><%= @info.cla.major.mname %></td>
+									</tr>
+									<tr>
+										<td>班级</td>
+										<td><%= @info.cla.clname %></td>
+										<td>籍贯</td>
+										<td><%= @info.splace %></td>
+									</tr>
+									<tr>
+										<td>学制</td>
+										<td><%= @info.schooling %></td>
+										<td>入学年份</td>
+										<td colspan="3"><%= @info.sgetin %></td>
+									</tr>
+									<tr>
+										<td>身份证号</td>
+										<td colspan="5"><%= @info.spassport %></td>
+									</tr>
+								</tbody>
+							</table>
+						<% else %>
+							<table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+								<tbody>
+									<tr>
+										<td>职工号</td>
+										<td><%= @info.tno %></td>
+										<td>名字</td>
+										<td><%= @info.tname %></td>
+									</tr>
+									<tr>
+										<td>性别</td>
+										<td><%= @info.tsex %></td>
+										<td>民族</td>
+										<td><%= @info.tnation %></td>
+									</tr>
+									<tr>
+										<td>职称</td>
+										<td><%= @info.tfunction %></td>
+										<td>籍贯</td>
+										<td><%= @info.tplace%></td>
+									</tr>
+									<tr>
+										<td>出生日期</td>
+										<td colspan="3"><%= @info.tbirthday %></td>
+									</tr>
+									<tr>
+										<td>身份证号</td>
+										<td colspan="3"><%= @info.tpassport %></td>
+									</tr>
+								</tbody>
+							</table>
+						<% end %>
+					<% end %>
+				</div>
+				
+				<%= render "layouts/scrollerfoot" %>
+			</div>
+			<div style="margin-left:500px; border: solid 1px; width: 60px;"><%= link_to '修改密码', edit_info_path(@info, :user => @user.no)  %></div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+	new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+		type : 'cover'
+	} );
+</script>

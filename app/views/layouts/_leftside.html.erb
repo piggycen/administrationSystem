@@ -1,0 +1,120 @@
+<% if @user.role == 'admin' %>
+	<nav id="mp-menu" class="mp-menu">
+		<div class="mp-level mp-level-open">
+			<h2 class="icon">菜单</h2>
+			<ul>
+				<li><%= link_to '排课管理', admin_schedules_path(:user => @user.no) %></li>
+				<li><%= link_to '学生信息管理', admin_students_path(:user => @user.no) %></li>
+				<li><%= link_to '教师信息管理', admin_teachers_path(:user => @user.no) %></li>
+				<li><%= link_to '主页面', infos_path(:user => @user.no) %></li>
+			</ul>			
+		</div>
+	</nav>
+<% elsif @user.role == 'teacher'%>
+	<nav id="mp-menu" class="mp-menu">
+		<div class="mp-level mp-level-open">
+			<h2 class="icon">菜单</h2>
+			<ul>
+				<li><%= link_to '个人课表查询', tcourse_path(:user => @user.no) %></li>
+			</ul>
+			<ul>
+				<li><%= link_to '成绩录入', teacher_grades_path(:user => @user.no) %></li>
+			</ul>
+			<ul>
+				<li><%= link_to '主页面', infos_path(:user => @user.no) %></li>
+			</ul>			
+		</div>
+	</nav>
+<% else %>
+	<nav id="mp-menu" class="mp-menu">
+		<div class="mp-level mp-level-open">
+			<h2 class="icon">菜单</h2>
+			<ul>
+				<li class="icon icon-arrow-left">
+					<a class="icon" href="#">信息查询</a>
+					<div class="mp-level">
+						<h2 class="icon icon-star">信息查询</h2>
+						<a class="mp-back" href="#">返回</a>
+						<ul>
+							<li>
+								<%= link_to '个人课表查询', percourse_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '学生考试查询', exam_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '学生补考查询', buexam_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '学生成绩查询', grade_path(:user => @user.no) %>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<ul>
+			<ul>
+				<li class="icon icon-arrow-left">
+					<a class="icon" href="#">网上选课</a>
+					<div class="mp-level">
+						<h2 class="icon icon-star">网上选课</h2>
+						<a class="mp-back" href="#">返回</a>
+						<ul>
+							<li>
+								<%= link_to '选必修课', student_acourses_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '选限选课', student_bcourses_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '选公选课', student_ccourses_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '选实验课', student_dcourses_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '选实践课', student_scourses_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '选体育课', student_tcourses_path(:user => @user.no) %>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<ul>
+				<li class="icon icon-arrow-left">
+					<a class="icon" href="#">教学评价</a>
+					<div class="mp-level">
+						<h2 class="icon icon-star">教学评价</h2>
+						<a class="mp-back" href="#">返回</a>
+						<ul>
+							<li>
+								<%= link_to '必修课评价', student_evalueacors_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '限选课评价', student_evaluebcors_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '公选课评价', student_evalueccors_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '实验课评价', student_evaluedcors_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '实践课评价', student_evaluescors_path(:user => @user.no) %>
+							</li>
+							<li>
+								<%= link_to '体育课评价', student_evaluetcors_path(:user => @user.no) %>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<ul>
+			<ul>
+				<li><li><%= link_to '主页面', infos_path(:user => @user.no) %></li></li>
+			</ul>		
+		</div>
+	</nav>
+<% end %>

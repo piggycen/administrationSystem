@@ -1,0 +1,50 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "nomalize"%>
+    <%= stylesheet_link_tag "demo"%>
+    <%= stylesheet_link_tag "icons"%>
+    <%= stylesheet_link_tag "component"%>
+    <%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+    <div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+        <%= render "layouts/leftside" %>
+        <div class="scroller">
+            <div class="scroller-inner">
+                <%= render "layouts/scrollerhead" %>
+                <div class="content">
+                    <%= form_for :teaching, :html => {:class=>'form-horizontal', :style => 'margin-top: 20px;'}, url: admin_schedules_path(:user => @user.no) do |f| %>
+                    <% if @teaching.errors.any? %>
+                        <div id="error_explanation">
+                            <h2><%= pluralize(@teaching.errors.count, "error") %> 导致排课创建失败:</h2>
+                            <ul>
+                                <% @teaching.errors.full_messages.each do |msg| %>
+                                <li><%= msg %></li>
+                                <% end %>
+                            </ul>
+                        </div>
+                    <% end %>
+                    <%= select_tag(:course_id, options_from_collection_for_select(Course.all, :id, :cname)) %>
+                    <%= select_tag(:teacher_id, options_from_collection_for_select(Teacher.all, :id, :tname)) %>
+                    <table  border="1">
+                    <tr>
+                        <td>上课时间：<%= text_field_tag 'teachtime' %></td>
+                        <td>上课地点：<%= text_field_tag 'teachplace' %></td>
+                    </tr>
+                    </table>
+                    <div style="margin-left: 500px;"><input type="submit" value=" 提交 "  class="btn btn-info" /></div>
+                    <% end %>
+                </div>
+                <%= render "layouts/scrollerfoot" %>
+            </div>
+        </div>
+    </div>
+</div>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+    new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+        type : 'cover'
+    } );
+</script>

@@ -1,0 +1,65 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag "nomalize"%>
+	<%= stylesheet_link_tag "demo"%>
+	<%= stylesheet_link_tag "icons"%>
+	<%= stylesheet_link_tag "component"%>
+	<%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+	<div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+		<%= render "layouts/leftside" %>
+		<div class="scroller">
+			<div class="scroller-inner">
+				<%= render "layouts/scrollerhead" %>
+				<div class="content">
+					限选课信息
+                    <table class="table table-bordered" style="width: 80%;margin-top: 30px;">
+                        <tr>
+                            <td>课程名</td>
+                            <td>课程号</td>
+                            <td>课程类型</td>
+                            <td>选课情况</td>
+                            <td>是否退选</td>
+                        </tr>
+                        <% @acourseall.each do |a| %>
+                        <tr>
+                            <td><%= a.cname %></td>
+                            <td><%= a.cno %></td>
+                            <td><%= a.ctype%></td>
+                            <% @teachingall = a.teachings %>
+                        	<% for i in 0..(@teachingall.count-1) %>
+                        		<% if !(@teachingall[i].mycourses).blank? %>
+                        			<td><%= '已选过' %></td>
+                        			<% break %>
+                        		<% else %>
+                        			<td><%= '还未选' %></td>
+                        			<% break %>
+                        		<% end %>
+                        	<% end %>
+                            <td><%= link_to '编辑', new_student_bcourse_path(:courseid => a.id, :user => @user.no)  %></td>
+                        </tr>
+                        <% end %>
+                    </table>
+				</div>
+				<%= render "layouts/scrollerfoot" %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+	new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+		type : 'cover'
+	} );
+</script>
+
+
+
+
+
+

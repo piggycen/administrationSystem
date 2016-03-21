@@ -1,0 +1,60 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag    "application", media: "all" %>
+    <%= javascript_include_tag "application" %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+    <div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+            <%= render "layouts/leftside" %>
+        <div class="scroller">
+            <div class="scroller-inner">
+                    <%= render "layouts/scrollerhead" %>
+                <div class="content">
+                    <%= form_for :info, :html => {:class=>'form-horizontal', :style => 'margin-top: 60px;'}, url: info_path(@user, :user => @user.no), method: :patch do |f| %>
+                    <% if @user.errors.any? %>
+                      <div id="error_explanation">
+                        <h2><%= pluralize(@user.errors.count, "error") %> prohibited
+                          this user from being saved:</h2>
+                        <ul>
+                        <% @user.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                        <% end %>
+                        </ul>
+                      </div>
+                    <% end %>
+
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">原密码：</label>
+                        <div class="col-sm-6">
+                          <%= password_field_tag 'pwd', '', {:class => 'form-control', :id => 'inputPassword3'} %>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">新密码：</label>
+                        <div class="col-sm-6">
+                          <%= password_field_tag 'newpwd', '', {:class => 'form-control', :id => 'inputPassword3'} %>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">确认密码：</label>
+                        <div class="col-sm-6">
+                          <%= password_field_tag 'confirmpwd', '', {:class => 'form-control', :id => 'inputPassword3'} %>
+                        </div>
+                    </div>
+                    <div style="margin-left: 500px;"><input type="submit" value=" 确认修改 "  class="btn btn-info" /></div>
+                    <% end %>                  
+                </div>
+                <%= render "layouts/scrollerfoot" %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+    new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+        type : 'cover'
+    } );
+</script>

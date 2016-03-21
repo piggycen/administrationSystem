@@ -1,0 +1,63 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "nomalize"%>
+    <%= stylesheet_link_tag "demo"%>
+    <%= stylesheet_link_tag "icons"%>
+    <%= stylesheet_link_tag "component"%>
+    <%= javascript_include_tag "modernizr" %>
+<% end %>
+<div class="container">
+    <div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+        <%= render "layouts/leftside" %>
+        <div class="scroller">
+            <div class="scroller-inner">
+                <%= render "layouts/scrollerhead" %>
+                <div class="content">
+                    <%= form_for :course, url: student_dcourse_path(:courseid => @dcourse.id, :user => @user.no),  method: :patch  do |f| %>
+                    <% if @mycourse.errors.any? %>
+                        <div id="error_explanation">
+                            <h2><%= pluralize(@mycourse.errors.count, "error") %> 导致选课失败:</h2>
+                            <ul>
+                                <% @mycourse.errors.full_messages.each do |msg| %>
+                                <li><%= msg %></li>
+                                <% end %>
+                            </ul>
+                        </div>
+                    <% end %>
+                    <div>课程名：<span><%=@dcourse.cname %></span></div>
+                    <div>课程号：<span><%=@dcourse.cno  %></span></div>
+                    <div>学分：<span><%=@dcourse.credit  %></span></div>
+                    <table  border="1">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>教师姓名</td>
+                            <td>学院</td>
+                            <td>上课时间</td>
+                            <td>上课地点</td>
+                        </tr>
+                        <% @teaching.each do |t| %>
+                        <tr>
+                          <td></td>
+                          <td><%= Teacher.find(t.teacher_id).tname %></td>
+                          <td><%= Teacher.find(t.teacher_id).department.dname %></td>
+                          <td><%= t.teachtime %></td>
+                          <td><%= t.teachplace %></td>
+                          <td><%= radio_button_tag(:teaching, t.id) %>
+                                <%= label_tag(:choose_dcourse, "选中") %></td>
+                        </tr>
+                        <% end %>
+                    </table>
+                    <div><input type="submit" value=" 修改 " /></div>
+                    <% end %>
+                </div>
+                <%= render "layouts/scrollerfoot" %>
+            </div>
+        </div>
+    </div>
+</div>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+    new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+        type : 'cover'
+    } );
+</script>

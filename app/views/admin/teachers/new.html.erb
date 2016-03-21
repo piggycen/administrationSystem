@@ -1,0 +1,72 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "nomalize"%>
+    <%= stylesheet_link_tag "demo"%>
+    <%= stylesheet_link_tag "icons"%>
+    <%= stylesheet_link_tag "component"%>
+    <%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+    <div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+        <%= render "layouts/leftside" %>
+        <div class="scroller">
+            <div class="scroller-inner">
+                <%= render "layouts/scrollerhead" %>
+                <div class="content">
+                    <%= form_for :teacher, url: admin_teachers_path(:user => @user.no) do |f| %>
+                    <% if @teacher.errors.any? %>
+                        <div id="error_explanation">
+                            <h2><%= pluralize(@teacher.errors.count, "error") %> 导致教师信息创建失败:</h2>
+                            <ul>
+                                <% @teacher.errors.full_messages.each do |msg| %>
+                                <li><%= msg %></li>
+                                <% end %>
+                            </ul>
+                        </div>
+                    <% end %>
+                    <table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+                        <tr>
+                            <td>教师号</td>
+                            <td><%= f.text_area 'tno' %></td>
+                            <td>名字</td>
+                            <td><%= f.text_area 'tname' %></td>
+                        </tr>
+                        <tr>
+                            <td>性别</td>
+                            <td><%= f.text_area 'tsex' %></td>
+                            <td>职称</td>
+                            <td><%= f.text_area 'tfunction' %></td>
+                        </tr>
+                        <tr>
+                            <td>民族</td>
+                            <td><%= f.text_area 'tnation' %></td>
+                            <td>出生地</td>
+                            <td><%= f.text_area 'tplace' %></td>
+                        </tr>
+                        <tr>
+                            <td>出生日期</td>
+                            <td><%= f.text_area 'tbirthday' %></td>
+                            <td>学院</td>
+                            <td><%= select_tag(:department_id, options_from_collection_for_select(Department.all, :id, :dname)) %></td>
+                        </tr>
+                        <tr>
+                            <td>身份证号</td>
+                            <td colspan="3"><%= f.text_area 'tpassport' %></td>
+                        </tr>
+                    </table>
+                    <div style="margin-left: 500px;"><input type="submit" value=" 提交 " class="btn btn-info" /></div>
+                    <% end %>
+                </div>
+                <%= render "layouts/scrollerfoot" %>
+            </div>
+        </div>
+    </div>
+</div>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+    new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+        type : 'cover'
+    } );
+</script>

@@ -1,0 +1,70 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag "nomalize"%>
+	<%= stylesheet_link_tag "demo"%>
+	<%= stylesheet_link_tag "icons"%>
+	<%= stylesheet_link_tag "component"%>
+	<%= stylesheet_link_tag "account"%>
+	<%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+	<div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+		<%= render "layouts/leftside" %>
+		<div class="scroller">
+			<div class="scroller-inner">
+				<%= render "layouts/scrollerhead" %>
+				<div class="content">
+					已有学生信息
+					<table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+                        <tr>
+                            <td>学号</td>
+                            <td>姓名</td>
+                            <td>性别</td>
+                            <td>学院</td>
+                            <td>专业</td>
+                            <td>班级</td>
+                            <td>籍贯</td>
+                            <td>学制</td>
+                            <td>民族</td>
+                            <td>入学年份</td>
+                            <td>出生日期</td>
+                            <td>身份证号</td>
+                            <td>修改</td>
+                            <td>删除</td>
+                        </tr>
+                        <% @studentall.each do |student| %>
+                        <tr>
+                            <td><%= student.sno %></td>
+                            <td><%= student.sname %></td>
+                            <td><%= student.ssex %></td>
+                            <td><%= student.cla.major.department.dname %></td>
+                            <td><%= student.cla.major.mname %></td>
+                            <td><%= student.cla.clname %></td>
+                            <td><%= student.splace %></td>
+                            <td><%= student.schooling %></td>
+                            <td><%= student.snation %></td>
+                            <td><%= student.sgetin %></td>
+                            <td><%= student.sbirthday %></td>
+                            <td><%= student.spassport %></td>
+                            <td><%= link_to '修改学生信息', edit_admin_student_path(student, :user => @user.no) %></td>
+                            <td><%= link_to '删除学生信息', admin_student_path(student, :user => @user.no), :method => 'delete', data: { confirm: 'Are you sure?' } %></td>
+                        </tr>
+                        <% end %>
+                    </table>
+                    <div style="margin-left:500px; border: solid 1px; width: 90px;"><%= link_to '新建学生信息', new_admin_student_path(:user => @user.no) %></div>
+				</div>
+				<%= render "layouts/scrollerfoot" %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+	new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+		type : 'cover'
+	} );
+</script>

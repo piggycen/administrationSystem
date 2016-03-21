@@ -1,0 +1,113 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag "nomalize"%>
+	<%= stylesheet_link_tag "demo"%>
+	<%= stylesheet_link_tag "icons"%>
+	<%= stylesheet_link_tag "component"%>
+	<%= javascript_include_tag "modernizr" %>
+	<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+	<div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+		<%= render "layouts/leftside" %>
+		<div class="scroller">
+			<div class="scroller-inner">
+				<%= render "layouts/scrollerhead" %>
+				<div class="content">
+					个人课表
+                    	<table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+						   	<tbody>
+							    <tr>
+							    	<td class="title">&nbsp;</td>
+							     	<td class="title">星期一</td>
+							     	<td class="title">星期二</td>
+							     	<td class="title">星期三</td>
+							     	<td class="title">星期四</td>
+							     	<td class="title">星期五</td>
+							     	<td class="title">星期六</td>
+							     	<td class="title">星期日</td>
+							    </tr>
+							    <tr>
+							     	<td class="title">一二节</td>
+							     	<td id="time-0-0"></td>
+							     	<td id="time-1-0"></td>
+							     	<td id="time-2-0"></td>
+							     	<td id="time-3-0"></td>
+							     	<td id="time-4-0"></td>
+							     	<td id="time-5-0"></td>
+							     	<td id="time-6-0"></td>
+							    </tr>
+							    <tr>
+							     	<td class="title">三四节</td>
+							      	<td id="time-0-1"></td>
+							     	<td id="time-1-1"></td>
+							     	<td id="time-2-1"></td>
+							     	<td id="time-3-1"></td>
+							     	<td id="time-4-1"></td>
+							     	<td id="time-5-1"></td>
+							     	<td id="time-6-1"></td> 
+								  </tr>
+							    <tr>
+							     	<td class="title">五六节</td>
+							     	<td id="time-0-2"></td>
+							     	<td id="time-1-2"></td>
+							     	<td id="time-2-2"></td>
+							     	<td id="time-3-2"></td>
+							     	<td id="time-4-2"></td>
+							     	<td id="time-5-2"></td>
+							     	<td id="time-6-2"></td>     
+							    </tr>
+							    <tr>
+							     	<td class="title">七八节</td>
+							     	<td id="time-0-3"></td>
+							     	<td id="time-1-3"></td>
+							     	<td id="time-2-3"></td>
+							     	<td id="time-3-3"></td>
+							     	<td id="time-4-3"></td>
+							     	<td id="time-5-3"></td>
+							     	<td id="time-6-3"></td>     
+							    </tr>
+							    <tr>
+							     	<td class="title">九十节</td>
+							     	<td id="time-0-4"></td>
+							     	<td id="time-1-4"></td>
+							     	<td id="time-2-4"></td>
+							     	<td id="time-3-4"></td>
+							     	<td id="time-4-4"></td>
+							     	<td id="time-5-4"></td>
+							     	<td id="time-6-4"></td>      
+							    </tr>
+							    <tr>
+							     	<td class="title">十一二节</td>
+							     	<td id="time-0-5"></td>
+							     	<td id="time-1-5"></td>
+							     	<td id="time-2-5"></td>
+							     	<td id="time-3-5"></td>
+							     	<td id="time-4-5"></td>
+							     	<td id="time-5-5"></td>
+							     	<td id="time-6-5"></td>     
+							    </tr>
+						   	</tbody>
+						</table>
+							<span style="color:#FF0000;font-size:14px;float:left;margin-right:8px">说明:课表由您的选课产生，如果课表数据有误，将会没有考试资格,老师也不会录入成绩,请各位同学认真对待并及时与教务科联系.</span>
+				</div>
+				<%= render "layouts/scrollerfoot" %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "jQuery-extension" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<%= javascript_include_tag "percourse" %>
+<script>
+	new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+		type : 'cover'
+	} );
+	
+
+
+
+</script>

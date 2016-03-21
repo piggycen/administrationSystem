@@ -1,0 +1,61 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "nomalize"%>
+    <%= stylesheet_link_tag "demo"%>
+    <%= stylesheet_link_tag "icons"%>
+    <%= stylesheet_link_tag "component"%>
+    <%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+    <div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+        <%= render "layouts/leftside" %>
+        <div class="scroller">
+            <div class="scroller-inner">
+                <%= render "layouts/scrollerhead" %>
+                <div class="content">
+                    <%= form_for :teaching, :html => {:class=>'form-horizontal', :style => 'margin-top: 20px;'}, url: admin_schedule_path(@teaching, :user => @user.no), method: :patch do |f| %>
+                    <% if @teaching.errors.any? %>
+                      <div id="error_explanation">
+                        <h2><%= pluralize(@teaching.errors.count, "error") %> prohibited
+                          this teaching from being saved:</h2>
+                        <ul>
+                        <% @teaching.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                        <% end %>
+                        </ul>
+                      </div>
+                    <% end %>                   
+                    <table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+                      <tr>
+                        <td>教师名：<%= @teacher.tname %></td>
+                        <td>职工号：<%= @teacher.tno %></td>
+                      </tr>
+                      <tr>
+                        <td>课程名：<%= @course.cname %></td>
+                        <td>课程号：<%= @course.cno %></td>
+                      </tr>
+                      <tr>
+                          <td><%= f.label '上课时间' %></td>
+                          <td><%= f.text_area :teachtime %></td>
+                      </tr>
+                      <tr>
+                        <td><%= f.label '上课地点' %></td>
+                        <td><%= f.text_field :teachplace %></td>
+                      </tr>
+                    </table>
+                      <div style="margin-left: 500px;"><input type="submit" value=" 提交 "  class="btn btn-info" /></div>
+                    <% end %>
+                </div>
+                <%= render "layouts/scrollerfoot" %>
+            </div>
+        </div>
+    </div>
+</div>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+    new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+        type : 'cover'
+    } );
+</script>

@@ -1,0 +1,88 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "nomalize"%>
+    <%= stylesheet_link_tag "demo"%>
+    <%= stylesheet_link_tag "icons"%>
+    <%= stylesheet_link_tag "component"%>
+    <%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+    <div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+        <%= render "layouts/leftside" %>
+        <div class="scroller">
+            <div class="scroller-inner">
+                <%= render "layouts/scrollerhead" %>
+                <div class="content">
+                    <div style="color: red; font-size: 18px">一旦提交将不能再进行修改</div>
+                    <form id="form1">
+                    <table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+                        <tr>
+                            <td>教师姓名</td>
+                            <td><%= @teacher.tname %></td>
+                        </tr>
+                        <tr>
+                            <td>课程名</td>
+                            <td><%= @course.cname %></td>
+                        </tr>
+                        <tr>
+                            <td>课程号</td>
+                            <td><%= @course.cno %></td>
+                        </tr>
+                        <tr>
+                            <td>课程性质</td>
+                            <td>公共必修</td>
+                        </tr>
+                        <tr>
+                            <td>学分</td>
+                            <td><%= @course.credit %></td>
+                        </tr>
+                        <tr>
+                            <td>评分:1,2,3,4,5</td>
+                            <td><%= text_area_tag 'star' %></td>
+                        </tr>
+                        <%= hidden_field_tag(:courseid, @course.id) %>
+                        <%= hidden_field_tag(:teachingid, @teaching.id) %>
+                        <%= hidden_field_tag(:user, @user.no) %>
+                    </table>
+                    <div style="margin-left: 500px;"><input type="submit" value=" 提交 " class="btn btn-info" onclick="evalue()" /></div>
+                </form>
+                </div>
+                <%= render "layouts/scrollerfoot" %>
+            </div>
+        </div>
+    </div>
+</div>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "jQuery-extension" %>
+<script>
+    new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+        type : 'cover'
+    } );
+    function evalue(){
+        var user = $.getParam('user');
+        var teachingid = $.getParam('teachingid');
+        var star = $id('star').value;
+        $.ajax({
+            url: '/api/v1/student/evalue',
+            data:{
+                user: user,
+                teachingid: teachingid,
+                star: star
+            },
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            success: function(data){
+                if(data.data[0].evalue == true){
+                    alert("已选过，不能再评价");
+                }
+            }
+        });
+    }
+
+
+</script>

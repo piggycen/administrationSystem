@@ -1,0 +1,68 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag "nomalize"%>
+	<%= stylesheet_link_tag "demo"%>
+	<%= stylesheet_link_tag "icons"%>
+	<%= stylesheet_link_tag "component"%>
+	<%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+	<div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+		<%= render "layouts/leftside" %>
+		<div class="scroller">
+			<div class="scroller-inner">
+				<%= render "layouts/scrollerhead" %>
+				<div class="content">
+					需要评价的体育课信息
+                    <table class="table table-bordered" style="width: 80%;margin-top: 30px;">
+                        <tr>
+                            <td>老师</td>
+                            <td>课程名</td>
+                            <td>课程号</td>
+                            <td>课程类型</td>
+                            <td>学分</td>
+                            <td>是否已评价</td>
+                        </tr>
+
+                        <% for i in 0..(@info.count-1) %>
+                        <tr>
+                            <td><%= @info[i]['tname'] %></td>
+                            <td><%= @info[i]['cno'] %></td>
+                            <td><%= @info[i]['cname']%></td>
+                            <td><%= @info[i]['ctype']%></td>
+                            <td><%= @info[i]['credit']%></td>
+                            <% for i in 0..(@info.count-1) %>
+                                <% if @info[i]['status'] %>
+                                    <td><%= '已评价' %></td>
+                                    <% break %>
+                                <% else %>
+                                    <td><%= '未评价' %></td>
+                                    <% break %>
+                                <% end %>
+                            <% end %>
+                            <td><%= link_to '评价', new_student_evaluetcor_path(:teachingid => @info[i]['teachingid'], :user => @user.no)  %></td>
+                        </tr>
+                        <% end %>
+                    </table>
+				</div>
+				<%= render "layouts/scrollerfoot" %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+	new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+		type : 'cover'
+	} );
+</script>
+
+
+
+
+
+

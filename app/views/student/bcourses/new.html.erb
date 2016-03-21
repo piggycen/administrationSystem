@@ -1,0 +1,122 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "nomalize"%>
+    <%= stylesheet_link_tag "demo"%>
+    <%= stylesheet_link_tag "icons"%>
+    <%= stylesheet_link_tag "component"%>
+    <%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+    <div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+        <%= render "layouts/leftside" %>
+        <div class="scroller">
+            <div class="scroller-inner">
+                <%= render "layouts/scrollerhead" %>
+                <div class="content">
+                    <form id="form1">
+                    <span>课程名：<%=@acourse.cname %>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span>课程号：<%=@acourse.cno  %>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span>学分：<%=@acourse.credit %></span>
+                    <table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+                        <tr>
+                            <td>教师姓名</td>
+                            <td>学院</td>
+                            <td>上课时间</td>
+                            <td>上课地点</td>
+                        </tr>
+                        <% for i in 0..(@teaching.count-1) %>
+                        <tr>
+                          <td><%= @teaching[i]['tname'] %></td>
+                          <td><%= @teaching[i]['dname'] %></td>
+                          <td><%= @teaching[i]['teachtime'] %></td>
+                          <td><%= @teaching[i]['teachplace'] %></td>
+                          <td><%= radio_button_tag(:teaching, @teaching[i]['teachingid']) %>
+                                <%= label_tag(:choose_acourse, "选中") %></td>
+                                <%= hidden_field_tag(:courseid, params[:courseid]) %>
+                                <%= hidden_field_tag(:user, params[:user]) %>
+                        </tr>
+                        <% end %>
+                    </table>
+
+                     <span style="margin-left: 350px;"><input type="submit" value=" 选课 "  class="btn btn-info" onclick="choose()" /></span>
+
+                    <% for i in 0..(@teaching.count-1) %>
+                        <% if !(@teaching[i]['status']).blank? && @teaching[i]['status'] == true %>
+                            <span style="margin-left: 250px;"><input type="submit" value=" 退课 " class="btn btn-danger" onclick="destroy()" /></span>
+                        <% end %>
+                    <%end%>
+                                        
+                </form>
+                </div>
+                <%= render "layouts/scrollerfoot" %>
+            </div>
+        </div>
+    </div>
+</div>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "jQuery-extension" %>
+<script>
+    new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+        type : 'cover'
+    } );
+
+    
+    function choose(){
+        var sno = '<%= @student.sno %>';
+        var length = '<%= (@teaching.length) %>';
+        var courseid = $.getParam('courseid')
+        length = parseInt(length);
+        var flag = false;
+        for(var i=0; i<length; i++){           
+            if((document.getElementsByName("teaching"))[i].checked){
+                flag = true;
+                var teaching = (document.getElementsByName("teaching"))[i].value;
+            }
+        }
+        if(flag == false){
+            alert("请至少选择一个");
+        }
+        $.ajax({
+            url: '/api/v1/student/choose?teaching=' + teaching + '&user=' + sno + '&courseid=' + courseid,
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            success: function(data){
+                if(data.data[0].test == true)
+                    alert("已选过");
+                else
+                    alert("选课成功");
+            }
+        });
+    }
+
+    function destroy(){
+        var sno = '<%= @student.sno %>';
+        
+        var courseid = $.getParam('courseid');
+
+        <% if !@teaching.blank? %>
+            var length = '<%= (@teaching.length) %>';
+            length = parseInt(length);
+            <% for i in 0..(@teaching.length-1) %>
+                <% if @teaching[i]['status'] == true %>
+                    var teachingid = "<%= @teaching[i]['teachingid'] %>";
+                <% end %>
+            <% end %>
+        <% end %>
+        $.ajax({
+            url: '/api/v1/student/destroy?teachingid=' + teachingid + '&user=' + sno,
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            success: function(data){
+                alert("退课成功");
+            }
+        });
+    }
+
+</script>

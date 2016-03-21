@@ -1,0 +1,46 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "login"%>
+    <%= javascript_include_tag "modernizr" %>
+<% end %>
+<div id="wrapper" class="login-wrapper">
+    <div id="header" class="login-header">
+        <div class="login-head-center"></div>
+        <%= image_tag("login-head-logo.png") %>
+    </div>
+    <div id="content" class="login-content">
+        <div class="login-content-head">用户登录：</div>
+        <div class="login-content-input">
+            <%= form_for(:user,:url=>"/logins/checkLogin") do |f| %>
+            <table>  
+                <tr class="username-group">  
+                    <td>学号:</td>  
+                    <td><%= f.text_field :no %></td>  
+                </tr>  
+                <tr class="password-group">  
+                    <td>密码:</td>  
+                    <td><%= f.password_field :pwd %></td>  
+                </tr>  
+                <tr>  
+                    <td>
+                        <input type="submit" value=" 登录 " class="login" id="login" />
+                    </td>
+                    <td>
+                        <input type="reset" value=" 重置 " class="reset" />
+                    </td>
+                </tr> 
+            </table>  
+            <% end %>
+        </div>
+    </div>
+    <div id="footer" class="login-footer">
+        <div class="bgl">
+            Powered by <%= link_to 'xx教务系统', 'https://www.baidu.com' %> &copy; by xxx
+        </div>
+    </div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+</script>

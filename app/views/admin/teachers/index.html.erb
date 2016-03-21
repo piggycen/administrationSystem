@@ -1,0 +1,64 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag "nomalize"%>
+	<%= stylesheet_link_tag "demo"%>
+	<%= stylesheet_link_tag "icons"%>
+	<%= stylesheet_link_tag "component"%>
+	<%= stylesheet_link_tag "account"%>
+	<%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+	<div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+		<%= render "layouts/leftside" %>
+		<div class="scroller">
+			<div class="scroller-inner">
+				<%= render "layouts/scrollerhead" %>
+				<div class="content">
+					已有教师信息
+					<table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+                        <tr>
+                            <td>职工号</td>
+                            <td>姓名</td>
+                            <td>性别</td>
+                            <td>职称</td>
+                            <td>民族</td>
+                            <td>籍贯</td>
+                            <td>学院</td>
+                            <td>出生日期</td>
+                            <td>身份证号</td>
+                            <td>修改</td>
+                            <td>删除</td>
+                        </tr>
+                        <% @teacherall.each do |teacher| %>
+                        <tr>
+                            <td><%= teacher.tno %></td>
+                            <td><%= teacher.tname %></td>
+                            <td><%= teacher.tsex%></td>
+                            <td><%= teacher.tfunction%></td>
+                            <td><%= teacher.tnation %></td>
+                            <td><%= teacher.tplace %></td>
+                            <td><%= (teacher.department).dname %></td>
+                            <td><%= teacher.tbirthday %></td>
+                            <td><%= teacher.tpassport %></td>
+                            <td><%= link_to '修改教师信息', edit_admin_teacher_path(teacher, :user => @user.no)  %></td>
+                            <td><%= link_to '删除教师信息', admin_teacher_path(teacher, :user => @user.no), :method => 'delete', data: { confirm: 'Are you sure?' } %></td>
+                        </tr>
+                        <% end %>
+                    </table>
+                    <div style="margin-left:500px; border: solid 1px; width: 90px;"><%= link_to '新建教师信息', new_admin_teacher_path(:user => @user.no) %></div>
+				</div>
+				<%= render "layouts/scrollerfoot" %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+	new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+		type : 'cover'
+	} );
+</script>

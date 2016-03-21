@@ -1,0 +1,137 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag "nomalize"%>
+	<%= stylesheet_link_tag "demo"%>
+	<%= stylesheet_link_tag "icons"%>
+	<%= stylesheet_link_tag "component"%>
+	<%= javascript_include_tag "modernizr" %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+	<div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+		<%= render "layouts/leftside" %>
+		<div class="scroller">
+			<div class="scroller-inner">
+				<%= render "layouts/scrollerhead" %>
+				<div class="content">
+					个人课表信息
+					<table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+            <tbody id="course-grade">
+                <!-- <tr>
+                    <td>课程号</td>
+                    <td>课程名</td>
+                    <td>学分</td>
+                    <td>课程类型</td>
+                    <td>上课时间</td>
+                    <td>上课地点</td>
+                    <td>录入</td>
+                </tr> -->
+            </tbody>
+          </table>
+				</div>
+				<%= render "layouts/scrollerfoot" %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "jQuery-extension" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+	type : 'cover'
+} );
+var info = [];
+function getPercourse(){
+    $.ajax({
+        url: '/api/v1/teacher/percourse?user=' + $.getParam("user"),
+        type: 'get',
+        cache: false,
+        dataType: 'json',
+        success: function(data){
+            if (data && data.status == 0){
+                info = new Array();
+                info = data.data;
+            }
+        showCourse();
+    }
+    });
+}
+function showCourse(){
+    var text = '<tr><td>课程号</td><td>课程名</td><td>学分</td><td>课程类型</td><td>上课时间</td><td>上课地点</td><td>录入</td></tr>';
+    var user = $.getParam('user');
+    for(var i=0, len=(info.length); i<len; i++){
+        var cno = info[i]['cno'];
+        var cname = info[i]['cname'];
+        var ctype = info[i]['ctype'];
+        var courseid = info[i]['cid'];
+        var teachingid = info[i]['teachingid']
+        var credit = info[i]['credit'];
+        var teachplace = info[i]['teachplace']
+        var teachtime = '';
+        for(var j=0, length=info[i]['teachtime'].length-1; j<length; j++){
+            if (info[i]['teachtime'][0] == '0'){
+                var single = '单周';
+            }else if(info[i]['teachtime'][0] == '1'){
+                var single = '双周';
+            }else{
+                var single = '';
+            }
+
+            switch (info[i]['teachtime'][1])
+            {
+            case '0':
+              var week = '星期一';
+              break;
+            case '1':
+              var week = '星期二';
+              break;
+            case '2':
+             var week = '星期三';
+              break;
+            case '3':
+              var week = '星期四';
+              break;
+            case '4':
+              var week = '星期五';
+              break;
+            case '5':
+              var week = '星期六';
+              break;
+            case '6':
+              var week = '星期日';
+              break;
+            }
+
+            switch (info[i]['teachtime'][2])
+            {
+            case '0':
+              var section = '第一二节';
+              break;
+            case '1':
+              var section = '第三四节';
+              break;
+            case '2':
+             var section = '第五六节';
+              break;
+            case '3':
+              var section = '第七八节';
+              break;
+            case '4':
+              var section = '第九十节';
+              break;
+            case '5':
+              var section = '第十一十二节';
+              break;
+            }
+
+            teachtime = single+ '&nbsp;' + week + '&nbsp;'+ '&nbsp;' + section + '&nbsp;' + '第' + (parseInt(info[i]['teachtime'][3])+1) + '~' + (parseInt(info[i]['teachtime'][4])+1) + '周'; 
+        }
+        text += '<tr><td>' + cno + '</td>' + '<td>' + cname + '</td>' + '<td>' + credit + '</td>' + '<td>' + ctype + '</td>' + '<td>' + teachtime + '</td>' + '<td>' + ctype + '</td>' + '<td>' + "<a href='/teacher/grades/new?courseid=" + courseid + "&user=" + user+ "&teachingid=" + teachingid + "'>编辑</a></td></tr>";
+    }
+    $id('course-grade').innerHTML = text;
+}
+getPercourse();
+</script>

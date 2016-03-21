@@ -1,0 +1,63 @@
+.login-wrapper{
+	background-image: image-url("login-bg.jpg");
+	width: 1000px;
+	height: 660px;
+	margin: 0 auto;
+	background-repeat: no-repeat;
+}
+.login-header{
+	width: 306px;
+	height: 59px;
+	margin: 0 auto;
+}
+.login-content{
+	font-size: 18px;
+	line-height: 18px;
+	width: 350px;
+	height: 150px;
+	position: relative;
+	left: 200px;
+	top: 150px;
+	margin: 0 auto;
+	.login-content-head{
+		height: 30px;
+		color: #666;
+		text-indent: 20px;
+	}
+	.login-content-input{
+		text-indent: 80px;
+	}
+	.username-group{
+		height: 50px;
+	}
+	.password-group {
+    	height: 50px;
+	}
+	p{
+		display: inline-block;
+	}
+	.login, .reset{
+		font-size: 50px;
+	}
+}
+.choose-user{
+	height: 50px;
+    margin-top: 20px;
+}
+.teacher-login {
+    display: inline-block;
+    text-indent: 80px;
+}
+.super-login {
+    display: inline-block;
+    text-indent: 100px;
+}
+.login-footer{
+	position: absolute;
+	bottom: 0px;
+	width: 1000px;
+	height: 30px;
+	.bgl{
+		text-align: center;
+	}
+}

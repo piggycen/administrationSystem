@@ -1,0 +1,71 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag "nomalize"%>
+	<%= stylesheet_link_tag "demo"%>
+	<%= stylesheet_link_tag "icons"%>
+	<%= stylesheet_link_tag "component"%>
+	<%= javascript_include_tag "modernizr" %>
+	<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+	<div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+		<%= render "layouts/leftside" %>
+		<div class="scroller">
+			<div class="scroller-inner">
+				<%= render "layouts/scrollerhead" %>
+				<div class="content">
+					补考信息
+						<table class="table table-bordered" style="width: 80%;">
+						   	<tbody id="buexam-info">
+						   		<!-- <tr>考试信息</tr> -->
+						   	</tbody>
+						</table>
+				</div>
+				<%= render "layouts/scrollerfoot" %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "jQuery-extension" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+	new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+		type : 'cover'
+	} );
+	var examinfos = [];
+	function examinfo(){
+		var user = $.getParam('user');
+		
+		$.ajax({
+            url: '/api/v1/student/buexam?user=' + user,
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            success: function(data){
+                if(data && (data.data.length > 0) && (data.status == 0)){
+                	examinfos = data.data;
+                	insert();
+                }
+                else{
+                	alert("没有补考信息");
+                }                  
+            }
+        });
+	}
+	function insert(){
+		var text = '';
+		text += '<tr><td>课程号</td><td>课程名</td><td>学号</td><td>姓名</td><td>补考时间</td><td>补考地点</td></tr> ';
+		for(var i=0; i<examinfos.length; i++){
+			text += '<tr><td>' + examinfos[i]['cno'] + '</td>' + '<td>' + examinfos[i]['cname'] + '</td>' + '<td>' + examinfos[i]['sno'] + '</td>' + '<td>' + examinfos[i]['sname'] + '</td>' + '<td>' + examinfos[i]['buexamtime'] + '</td>' + '<td>' + examinfos[i]['buexamplace'] + '</td></tr>';
+		}
+		$id('buexam-info').innerHTML = text;
+	}
+	examinfo();
+	
+
+
+
+</script>

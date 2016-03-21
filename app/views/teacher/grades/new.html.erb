@@ -1,0 +1,74 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag "nomalize"%>
+	<%= stylesheet_link_tag "demo"%>
+	<%= stylesheet_link_tag "icons"%>
+	<%= stylesheet_link_tag "component"%>
+	<%= javascript_include_tag "modernizr" %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<% end %>
+<div class="container-fluid" style="padding-left: 0px; height: 720px;">
+	<div class="mp-pusher" id="mp-pusher" style="transform: translate3d(200px, 0px, 0px);">
+		<%= render "layouts/leftside" %>
+		<div class="scroller">
+			<div class="scroller-inner">
+				<%= render "layouts/scrollerhead" %>
+				<div class="content">
+                    <div>课程号：<span><%= @course.cno %></span></div>
+                    <div>课程名：<span><%= @course.cname %></span></div>
+                    <div>学分：<span><%= @course.credit %></span></div>
+					<table class="table table-bordered" style="width: 80%; margin-top: 30px;">
+                        <tbody id="course-grade">
+                            
+                        </tbody>
+                    </table>
+				</div>
+				<%= render "layouts/scrollerfoot" %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "jquery.min" %>  
+<%= javascript_include_tag "jquery_ujs" %>
+<%= javascript_include_tag "jQuery-extension" %>
+<%= javascript_include_tag "classie" %>
+<%= javascript_include_tag "mlpushmenu" %>
+<script>
+new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ), {
+	type : 'cover'
+} );
+var info = [];
+function getPercourse(){
+    $.ajax({
+        url: '/api/v1/teacher/grade', 
+        data:{
+            user: $.getParam("user"),
+            teachingid: $.getParam("teachingid")
+        },
+        type: 'get',
+        cache: false,
+        dataType: 'json',
+        success: function(data){
+            if (data && data.status == 0){
+                info = new Array();
+                info = data.data;
+            }
+        showCourse();
+    }
+    });
+}
+function showCourse(){
+    var text = '<tr><td>学院</td><td>专业</td><td>班级号</td><td>学号</td><td>姓名</td></tr>';
+    var user = $.getParam('user');
+    for(var i=0, len=(info.length); i<len; i++){
+        var dname = info[i]['dname'];
+        var mname = info[i]['mname'];
+        var clno = info[i]['clno'];
+        var sno = info[i]['sno'];
+        var sname = info[i]['sname'];
+        text += '<tr><td>' + dname + '</td>' + '<td>' + mname + '</td>' + '<td>' + clno + '</td>' + '<td>' + sno + '</td>' + '<td>' + sname + "</td></tr>";
+    }
+    $id('course-grade').innerHTML = text;
+}
+getPercourse();
+</script>
